@@ -34,10 +34,7 @@ Or you can still replace my functions with yours, might be irritating.
 
 You also might be able to port this project to VitaSDK and use their printf helper
 
-# Possible things to add
-
-- Actions counter
-- Bigger list to sort
-
 # Fixes 🩹
 - The app seems to crash after some stacks resets. Might be a malloc/free issue
+- The counter doesn't clear nicely with resetting the stack. An ok-tier way to clear it is used now (but not perfect for me).
+- Seems like the counter is buggy when executing 2 times a sorting method (Seems like it goes to 0 without any reason)

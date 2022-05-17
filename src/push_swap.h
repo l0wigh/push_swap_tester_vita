@@ -26,8 +26,10 @@ void	swapb(t_stack *stackb);
 void	swaps(t_stack *stacka, t_stack *stackb);
 void    ps_showstacks(t_stack *stacka, t_stack *stackb);
 void    ps_clearstacks(t_stack *stacka, t_stack *stackb);
+void    ps_showcounter(int *actions);
+void    ps_clearcounter(int *actions);
 int	    ps_issorted(t_stack *stack);
-void    bubblesort(t_stack *stacka, t_stack *stackb);
-void	ps_customsort(t_stack *stacka, t_stack *stackb);
+void    bubblesort(t_stack *stacka, t_stack *stackb, int *actions);
+void	ps_customsort(t_stack *stacka, t_stack *stackb, int *actions);
 void    pause();
 #endif

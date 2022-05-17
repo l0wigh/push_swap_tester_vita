@@ -166,7 +166,7 @@ void	swaps(t_stack *stacka, t_stack *stackb)
 	return ;
 }
 
-void bubblesort(t_stack *stacka, t_stack *stackb)
+void bubblesort(t_stack *stacka, t_stack *stackb, int *actions)
 {
     int i;
     int j;
@@ -182,27 +182,36 @@ void bubblesort(t_stack *stacka, t_stack *stackb)
                 if (ps_issorted(stacka))
                     return;
                 ps_clearstacks(stacka, stackb);
+				ps_clearcounter(actions);
                 swapa(stacka);
-                ps_showstacks(stacka, stackb);
+                actions++;
+               ps_showstacks(stacka, stackb);
+				ps_showcounter(actions);
                 sceKernelDelayThread(0.2*1000000);
             }
             if (ps_issorted(stacka))
                 return;
             ps_clearstacks(stacka, stackb);
-            rotatea(stacka);
+			ps_clearcounter(actions);
+            rotatea(stacka); 
+			actions++;
             ps_showstacks(stacka, stackb);
+			ps_showcounter(actions);
             sceKernelDelayThread(0.2 * 1000000);
             j++;
         }
         i++;
     }
     ps_clearstacks(stacka, stackb);
+	ps_clearcounter(actions);
     rotatea(stacka);
+	actions++;
     ps_showstacks(stacka, stackb);
+	ps_showcounter(actions);
     sceKernelDelayThread(0.2 * 1000000);
     if (ps_issorted(stacka))
         return ;
-    bubblesort(stacka, stackb);
+    bubblesort(stacka, stackb, actions);
 }
 
 int    ps_checksmaller(t_stack *stacka)
@@ -226,7 +235,7 @@ int    ps_checksmaller(t_stack *stacka)
     return pos_smaller;
 }
 
-void	ps_customsort(t_stack *stacka, t_stack *stackb)
+void	ps_customsort(t_stack *stacka, t_stack *stackb, int *actions)
 {
     int i;
     int smaller;
@@ -236,14 +245,20 @@ void	ps_customsort(t_stack *stacka, t_stack *stackb)
     while (i < smaller)
     {
         ps_clearstacks(stacka, stackb);
+		ps_clearcounter(actions);
         rotatea(stacka);
+		actions++;
         ps_showstacks(stacka, stackb);
+		ps_showcounter(actions);
         sceKernelDelayThread(0.2*1000000);
         i++;
     }
     ps_clearstacks(stacka, stackb);
+	ps_clearcounter(actions);
     pushb(stacka, stackb);
+	actions++;
     ps_showstacks(stacka, stackb);
+	ps_showcounter(actions);
     sceKernelDelayThread(0.2 * 1000000);
     if (stacka->taille == 0)
     {
@@ -251,11 +266,14 @@ void	ps_customsort(t_stack *stacka, t_stack *stackb)
         while (i < stackb->taille)
         {
             ps_clearstacks(stacka, stackb);
+			ps_clearcounter(actions);
             pusha(stacka, stackb);
+			actions++;
             ps_showstacks(stacka, stackb);
+			ps_showcounter(actions);
             sceKernelDelayThread(0.2 * 1000000);
         }
     }
     else
-        ps_customsort(stacka, stackb);
+        ps_customsort(stacka, stackb, actions);
 }

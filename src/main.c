@@ -74,7 +74,7 @@ void ps_showstacks(t_stack *stacka, t_stack *stackb)
 
     i = 0;
     psvDebugScreenPrintf("Stack A", 420, 630, SCE_COLOR_RED, SCE_DBGFONT_FONTSIZE_LARGE);
-    while (i < stacka->taille)
+    while (i < stacka->taille && i < 6)
     {
         sprintf(print, "%d", stacka->elements[i]);
         psvDebugScreenPrintf(print, positions[i], 680, SCE_COLOR_RED, SCE_DBGFONT_FONTSIZE_LARGE);
@@ -82,7 +82,7 @@ void ps_showstacks(t_stack *stacka, t_stack *stackb)
     }
     i = 0;
     psvDebugScreenPrintf("Stack B", 420, 780, SCE_COLOR_GREEN, SCE_DBGFONT_FONTSIZE_LARGE);
-    while (i < stackb->taille)
+    while (i < stackb->taille && i < 6)
     {
         sprintf(print, "%d", stackb->elements[i]);
         psvDebugScreenPrintf(print, positions[i], 830, SCE_COLOR_GREEN, SCE_DBGFONT_FONTSIZE_LARGE);
@@ -143,6 +143,27 @@ void showBasicStuff()
     return ;
 }
 
+void ps_showcounter(int *actions)
+{
+    int counter;
+    SceChar8 stringActions[255];
+    sprintf(stringActions, "%d", (void *)actions);
+    counter = atoi(stringActions) / 4;
+    sprintf(stringActions, "Mouvements : %d", counter);
+    psvDebugScreenPrintf(stringActions, 470, 80, SCE_COLOR_YELLOW, SCE_DBGFONT_FONTSIZE_LARGE);
+}
+
+void ps_clearcounter(int *actions)
+{
+    int counter;
+    SceChar8 stringActions[255];
+    sprintf(stringActions, "%d", (void *)actions);
+    counter = atoi(stringActions) / 4;
+    sprintf(stringActions, "Mouvements : %d", counter);
+    psvDebugScreenTextClear(stringActions, 470, 80, SCE_DBGFONT_FONTSIZE_LARGE);
+}
+
+
 void ps_resetstack(t_stack *stacka, t_stack *stackb, int elements[], int taille)
 {
     ps_clearstacks(stacka, stackb);
@@ -159,6 +180,7 @@ void ps_resetstack(t_stack *stacka, t_stack *stackb, int elements[], int taille)
 
 int main()
 {
+    int *actions = 0;
     FILE *in_file = fopen("ux0://data/push_swap/numbers.txt", "r"); // read only
     if (!in_file)
         return 0;
@@ -186,19 +208,26 @@ int main()
     psvDebugScreenInit();
     showBasicStuff();
     ps_showstacks(stacka, stackb);
+    ps_showcounter(actions);
     while(1)
     {
         sceCtrlPeekBufferPositive(0, &ctrl, 1);
         memcpy(touch_old, touch, sizeof(touch_old));
         int port;
         if (ctrl.buttons == SCE_CTRL_CROSS)
+        {
+            psvDebugScreenTextClear("Sorted", 460, 640, SCE_DBGFONT_FONTSIZE_LARGE);
+            psvDebugScreenLineClear(470);
+            actions = 0;
+            ps_showcounter(actions);
             ps_resetstack(stacka, stackb, elements, i);
+        }
         if (ctrl.buttons == SCE_CTRL_SELECT)
             return 0;
         if (ctrl.buttons == SCE_CTRL_CIRCLE)
-            bubblesort(stacka, stackb);
+            bubblesort(stacka, stackb, actions);
         if (ctrl.buttons == SCE_CTRL_SQUARE)
-            ps_customsort(stacka, stackb);
+            ps_customsort(stacka, stackb, actions);
         for (port = 0; port < SCE_TOUCH_PORT_MAX_NUM; port++)
         {
             sceTouchPeek(port, &touch[port], 1);
@@ -210,32 +239,44 @@ int main()
                     if (touch[0].report[0].y < 240)
                     {
                         ps_clearstacks(stacka, stackb);
+                        ps_clearcounter(actions);
                         pusha(stacka, stackb);
+                        actions++;
                         ps_showstacks(stacka, stackb);
+                        ps_showcounter(actions);
                         pause();
                         break;
                     }
                     if (touch[0].report[0].y > 240 && touch[0].report[0].y < 480)
                     {
                         ps_clearstacks(stacka, stackb);
+                        ps_clearcounter(actions);
                         swapa(stacka);
+                        actions++;
                         ps_showstacks(stacka, stackb);
+                        ps_showcounter(actions);
                         pause();
                         break;
                     }
                     if (touch[0].report[0].y > 480 && touch[0].report[0].y < 720)
                     {
                         ps_clearstacks(stacka, stackb);
+                        ps_clearcounter(actions);
                         rotatea(stacka);
+                        actions++;
                         ps_showstacks(stacka, stackb);
+                        ps_showcounter(actions);
                         pause();
                         break;
                     }
                     if (touch[0].report[0].y > 720 && touch[0].report[0].y < 960)
                     {
                         ps_clearstacks(stacka, stackb);
+                        ps_clearcounter(actions);
                         reversea(stacka);
+                        actions++;
                         ps_showstacks(stacka, stackb);
+                        ps_showcounter(actions);
                         pause();
                         break;
                     }
@@ -246,32 +287,44 @@ int main()
                     if (touch[0].report[0].y < 240)
                     {
                         ps_clearstacks(stacka, stackb);
+                        ps_clearcounter(actions);
                         pushb(stacka, stackb);
+                        actions++;
                         ps_showstacks(stacka, stackb);
+                        ps_showcounter(actions);
                         pause();
                         break;
                     }
                     if (touch[0].report[0].y > 240 && touch[0].report[0].y < 480)
                     {
                         ps_clearstacks(stacka, stackb);
+                        ps_clearcounter(actions);
                         swapb(stackb);
+                        actions++;
                         ps_showstacks(stacka, stackb);
+                        ps_showcounter(actions);
                         pause();
                         break;
                     }
                     if (touch[0].report[0].y > 480 && touch[0].report[0].y < 720)
                     {
                         ps_clearstacks(stacka, stackb);
+                        ps_clearcounter(actions);
                         rotateb(stackb);
+                        actions++;
                         ps_showstacks(stacka, stackb);
+                        ps_showcounter(actions);
                         pause();
                         break;
                     }
                     if (touch[0].report[0].y > 720 && touch[0].report[0].y < 960)
                     {
                         ps_clearstacks(stacka, stackb);
+                        ps_clearcounter(actions);
                         reverseb(stackb);
+                        actions++;
                         ps_showstacks(stacka, stackb);
+                        ps_showcounter(actions);
                         pause();
                         break;
                     }
@@ -282,24 +335,33 @@ int main()
                     if (touch[0].report[0].y > 240 && touch[0].report[0].y < 480)
                     {
                         ps_clearstacks(stacka, stackb);
+                        ps_clearcounter(actions);
                         swaps(stacka, stackb);
+                        actions++;
                         ps_showstacks(stacka, stackb);
+                        ps_showcounter(actions);
                         pause();
                         break;
                     }
                     if (touch[0].report[0].y > 480 && touch[0].report[0].y < 720)
                     {
                         ps_clearstacks(stacka, stackb);
+                        ps_clearcounter(actions);
                         rotates(stacka, stackb);
+                        actions++;
                         ps_showstacks(stacka, stackb);
+                        ps_showcounter(actions);
                         pause();
                         break;
                     }
                     if (touch[0].report[0].y > 720 && touch[0].report[0].y < 960)
                     {
                         ps_clearstacks(stacka, stackb);
+                        ps_clearcounter(actions);
                         reverses(stacka, stackb);
+                        actions++;
                         ps_showstacks(stacka, stackb);
+                        ps_showcounter(actions);
                         pause();
                         break;
                     }
