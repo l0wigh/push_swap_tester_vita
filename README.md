@@ -20,7 +20,7 @@ You can also use X to reset stack, O to use bubble sort, [] to use a really simp
 - Create the folder "push_swap" in ux0://data/
 - Create a file "numbers.txt" inside that folder
 - Put one number per lines inside this text file 
-- Keep in mind that it's working with 6 or less numbers, more of that will still sort, but will not output correctly
+- Keep in mind that it's working with more than 6 numbers, but will only output the first 6 numbers that are on the stack
 
 # What you can do with this
 
