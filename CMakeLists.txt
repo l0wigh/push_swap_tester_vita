@@ -24,6 +24,7 @@ link_directories(
 add_executable(${Project}
     src/push_swap.h
     src/ps_func.c
+    src/better_sort.c
     src/main.c
 )
 

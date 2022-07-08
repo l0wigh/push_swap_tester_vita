@@ -11,7 +11,7 @@ This is not a tester, it's more like a trainer or a visualizer
 
 Every push_swap actions are implemented and can be used with front touchpad.
 
-You can also use X to reset stack, O to use bubble sort, [] to use a really simple custom sort, and SELECT to leave the app
+You can also use X to reset stack, O to use bubble sort, [] to use a sort made by another 42 school student (Le GOAT), and SELECT to leave the app
 
 # How to use
 
@@ -36,5 +36,5 @@ You also might be able to port this project to VitaSDK and use their printf help
 
 # Fixes 🩹
 - The app seems to crash after some stacks resets. Might be a malloc/free issue
-- The counter doesn't clear nicely with resetting the stack. An ok-tier way to clear it is used now (but not perfect for me).
+- The counter doesn't clear nicely with resetting the stack. An ok-tier way to clear it is used now (I removed it since it isn't working like I want).
 - Seems like the counter is buggy when executing 2 times a sorting method (Seems like it goes to 0 without any reason)

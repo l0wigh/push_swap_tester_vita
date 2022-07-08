@@ -33,9 +33,11 @@ t_stack *ps_createstack(int elements[], int taille)
     stack = (t_stack*)malloc(sizeof(t_stack));
     stack->taille = taille;
     stack->elements = (int*)malloc(sizeof(int) * taille);
+    stack->tmp = (int*)malloc(sizeof(int) * taille);
     while (i <= taille)
     {
         stack->elements[i - 1] = elements[i - 1];
+        stack->tmp[i - 1] = elements[i - 1];
         i++;
     }
     return (stack);
@@ -119,7 +121,7 @@ void showBasicStuff()
     psvDebugScreenPrintf("RRR", 420, 380,  SCE_COLOR_YELLOW, SCE_DBGFONT_FONTSIZE_LARGE);
 
     // Print custom sorting commands
-    psvDebugScreenPrintf("X : Reset Stacks | O : Bubble Sort | [] : Custom Sort", 520, 60,  SCE_COLOR_PURPLE, SCE_DBGFONT_FONTSIZE_LARGE);
+    psvDebugScreenPrintf("X : Reset Stacks | O : Bubble Sort | [] : Loic Sort", 520, 60,  SCE_COLOR_PURPLE, SCE_DBGFONT_FONTSIZE_LARGE);
 
     // Print Stack Separators
     while (i <= 420)
@@ -145,22 +147,29 @@ void showBasicStuff()
 
 void ps_showcounter(int *actions)
 {
+    (void)actions;
+    return ;
+    /**
     int counter;
     SceChar8 stringActions[255];
     sprintf(stringActions, "%d", (void *)actions);
     counter = atoi(stringActions) / 4;
     sprintf(stringActions, "Mouvements : %d", counter);
     psvDebugScreenPrintf(stringActions, 470, 80, SCE_COLOR_YELLOW, SCE_DBGFONT_FONTSIZE_LARGE);
+    **/
 }
 
 void ps_clearcounter(int *actions)
 {
+    (void)actions;
+    /**
     int counter;
     SceChar8 stringActions[255];
     sprintf(stringActions, "%d", (void *)actions);
     counter = atoi(stringActions) / 4;
     sprintf(stringActions, "Mouvements : %d", counter);
     psvDebugScreenTextClear(stringActions, 470, 80, SCE_DBGFONT_FONTSIZE_LARGE);
+    **/
 }
 
 
@@ -169,6 +178,8 @@ void ps_resetstack(t_stack *stacka, t_stack *stackb, int elements[], int taille)
     ps_clearstacks(stacka, stackb);
     free(stacka->elements);
     free(stackb->elements);
+    free(stacka->tmp);
+    free(stackb->tmp);
     free(stacka);
     free(stackb);
     stacka = ps_createstack(elements, taille);
@@ -227,6 +238,8 @@ int main()
         if (ctrl.buttons == SCE_CTRL_CIRCLE)
             bubblesort(stacka, stackb, actions);
         if (ctrl.buttons == SCE_CTRL_SQUARE)
+            better_sort(stacka, stackb, actions);
+        if (ctrl.buttons == SCE_CTRL_TRIANGLE)
             ps_customsort(stacka, stackb, actions);
         for (port = 0; port < SCE_TOUCH_PORT_MAX_NUM; port++)
         {

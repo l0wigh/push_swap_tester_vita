@@ -10,6 +10,7 @@
 typedef struct s_stack
 {
     int *elements;
+    int *tmp;
     int taille;
 } t_stack;
 
@@ -32,4 +33,5 @@ int	    ps_issorted(t_stack *stack);
 void    bubblesort(t_stack *stacka, t_stack *stackb, int *actions);
 void	ps_customsort(t_stack *stacka, t_stack *stackb, int *actions);
 void    pause();
+void	better_sort(t_stack *stacka, t_stack *stackb, int *actions);
 #endif
